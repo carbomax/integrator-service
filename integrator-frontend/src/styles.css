@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--font-family);
+  background: var(--surface-0);
+}
+
+.root-app{
+
+  margin: 0;
+  height: 100%;
+}
+
+.h-100-p {
+  height: 100%;
+}
+
+.h-90-p {
+  height: 90%;
+}
+
+.h-80-p {
+  height: 80%;
+}
+
+.h-10-p {
+  height: 10%;
+}

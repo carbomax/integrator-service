@@ -1,0 +1,12 @@
+<p-menubar class="p-mb-2 p-menubar-b" [model]="items">
+  <ng-template pTemplate="start">
+    <img src="assets/images/primeng.svg" alt="" height="40" class="p-mr-2">
+  </ng-template>
+  <ng-template pTemplate="end">
+    <input type="text" pInputText placeholder="Search">
+
+    <p-menu #profileMenuId [popup]="true" [model]="profileMenu"></p-menu>
+    <button pButton pRipple type="button" icon="pi pi-user"
+      class="p-button-rounded p-button-info p-button-outlined p-ml-2" (click)="profileMenuId.toggle($event)"></button>
+  </ng-template>
+</p-menubar>
