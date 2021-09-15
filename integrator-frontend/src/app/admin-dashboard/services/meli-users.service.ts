@@ -10,7 +10,7 @@ import { DeleteBatchDto } from 'src/app/models/delete-batch.model';
 })
 export class MeliUsersService {
 
-  URI_USERS: string = `${environment.uri_backend}integrator-service/user/users-meli`
+  URI_USERS: string = `${environment.uri_backend}integrator/user/users-meli`
 
   constructor(private http: HttpClient) {
       this.getAll()

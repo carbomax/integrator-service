@@ -1,3 +1,4 @@
+import { MeliProductsComponent } from './meli-products/meli-products.component';
 import { NotFoundComponent } from './../shared/pages/not-found/not-found.component';
 
 import { NgModule } from '@angular/core';
@@ -18,6 +19,8 @@ const routes: Routes = [
       },
       { path: 'admin-users', component: AdminUsersComponent },
       { path: 'meli_accounts', component: MeliUsersComponent },
+      { path: 'meli-products', component: MeliProductsComponent },
+
       {path: '**', redirectTo: 'dashboard'}
     ],
   },

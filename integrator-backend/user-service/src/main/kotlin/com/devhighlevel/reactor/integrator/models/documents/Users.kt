@@ -12,7 +12,8 @@ data class Users(
     var name: String?,
     var role: String?,
     var image: String?,
-    var enabled: Boolean? = false
+    var enabled: Boolean? = false,
+    var attempts: Int?
 ) {
     constructor(user: UserDto) : this(
         user.id,
@@ -21,6 +22,7 @@ data class Users(
         user.name,
         user.role,
         user.image,
-        user.enabled
+        user.enabled,
+        user.attempts
     )
 }

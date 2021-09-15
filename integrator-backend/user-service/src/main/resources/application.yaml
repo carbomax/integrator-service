@@ -14,7 +14,7 @@ spring:
   application:
     name: user-service
   webflux:
-    base-path: /integrator-service/user
+    base-path: /integrator/user
 
 authorization:
     client_secret: ${client_secret}

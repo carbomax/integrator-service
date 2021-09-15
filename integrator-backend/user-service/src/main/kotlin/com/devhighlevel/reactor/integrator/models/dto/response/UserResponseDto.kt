@@ -2,14 +2,15 @@ package com.devhighlevel.reactor.integrator.models.dto.response
 
 import com.devhighlevel.reactor.integrator.models.documents.Users
 
-class UserResponse(
+class UserResponseDto(
     val id: String?,
     val email: String?,
     val password: String?,
     val name: String?,
     val role: String?,
     val image: String?,
-    val enabled: Boolean?
+    val enabled: Boolean?,
+    val attempts: Int?
 ) {
     constructor(user: Users?): this(
         user?.id,
@@ -18,6 +19,7 @@ class UserResponse(
         user?.name,
         user?.role,
         user?.image,
-        user?.enabled
+        user?.enabled,
+        user?.attempts
     )
 }

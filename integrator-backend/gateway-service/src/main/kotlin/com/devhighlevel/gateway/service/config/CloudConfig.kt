@@ -16,9 +16,18 @@ class CloudConfig {
     fun routerLocator(builder: RouteLocatorBuilder): RouteLocator {
         return builder.routes()
             .route {
-                it.path("/integrator-service/user/**")
+                it.path("/integrator/user/**")
                     .uri("lb://user-service")
-            }.build()
+            }
+            .route{
+                it.path("/integrator/product/**")
+                    .uri("lb://product-service")
+            }
+            .route{
+                it.path("/oauth/**")
+                    .uri("lb://oauth-service")
+            }
+            .build()
     }
 
     @Bean

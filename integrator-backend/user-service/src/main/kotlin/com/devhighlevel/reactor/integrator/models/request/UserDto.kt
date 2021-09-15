@@ -18,5 +18,6 @@ data class UserDto(
     @field:NotBlank
     val role: String,
     val image: String?,
-    val enabled: Boolean? = false
+    val enabled: Boolean? = false,
+    val attempts: Int? = 0
 )

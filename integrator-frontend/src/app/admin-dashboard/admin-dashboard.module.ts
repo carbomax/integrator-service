@@ -16,6 +16,8 @@ import { MenuAdminComponent } from './components/menus/menu-admin/menu-admin.com
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { SharedModule } from '../shared/shared.module';
 import { MeliUsersComponent } from './meli-users/meli-users.component';
+import { MeliProductsComponent } from './meli-products/meli-products.component';
+import { MenuStoreComponent } from './components/menus/menu-store/menu-store.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { MeliUsersComponent } from './meli-users/meli-users.component';
     AppMainComponent,
     MenuAdminComponent,
     AdminUsersComponent,
-    MeliUsersComponent
+    MeliUsersComponent,
+    MeliProductsComponent,
+    MenuStoreComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,10 @@
-server:
-  port: ${PORT:8081}
 
+
+server:
+  port: ${PORT:9991}
+  error:
+    include-message: always
+    include-stacktrace: never
 eureka:
   instance:
     instance-id: ${spring.application.name}:${eureka.instance.instance_id:${random.value}}
@@ -9,7 +13,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 spring:
   application:
-    name: product-service
-  webflux:
-    base-path: /integrator/product
+    name: oauth-service
+
+
+
 

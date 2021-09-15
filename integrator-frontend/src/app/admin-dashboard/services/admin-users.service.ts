@@ -19,7 +19,7 @@ export class AdminUsersService {
     { name: 'User', code: 'ROLE_USER'}
   ]
 
-  URI_USERS: string = `${environment.uri_backend}integrator-service/user/user-system`
+  URI_USERS: string = `${environment.uri_backend}integrator/user/user-system`
   constructor(private http: HttpClient) {
       this.getUsers()
    }

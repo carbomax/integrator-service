@@ -1,0 +1,96 @@
+<div class="p-grid">
+  <div class="p-col-12">
+
+
+<p-toast></p-toast>
+
+<div class="card">
+
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></button>
+      <button pButton pRipple [disabled]="selectedMeliProducts.length <= 0" label="Delete" icon="pi pi-trash" class="p-button-danger" ></button>
+
+
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload> -->
+      <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="meliProducts"  [(selection)]="selectedMeliProducts" [rowHover]="true"
+       [globalFilterFields]="['title', 'price', 'availableQuantity']"
+    dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Image</th>
+        <th pSortableColumn="title">Title<p-sortIcon field="title"></p-sortIcon></th>
+        <th pSortableColumn="category">Category<p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="availableQuantity">AvailableQuantity<p-sortIcon field="availableQuantity"></p-sortIcon></th>
+        <th pSortableColumn="price">Price<p-sortIcon field="price"></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h3 class="p-m-0">Manage Meli Products</h3>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Search..." (input)="searchInTable(dt, $event)"/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-meliProduct>
+      <tr>
+
+        <td>
+          <p-tableCheckbox [value]="meliProduct"></p-tableCheckbox>
+        </td>
+        <td>
+          <img [src]="'assets/img/no_image.png'" width="100" class="p-shadow-4" />
+        </td>
+        <td>{{meliProduct?.title}}</td>
+        <td>{{meliProduct?.category}}</td>
+        <td>{{meliProduct?.availableQuantity}}</td>
+        <td>{{meliProduct?.price}}</td>
+
+        <td>
+          <button pButton pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success p-mr-2"
+
+                  ></button>
+          <button pButton pRipple
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+
+                  ></button>
+
+        </td>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        In total there are {{meliProducts ? meliProducts.length : 0 }} products.
+      </div>
+    </ng-template>
+  </p-table>
+
+</div>
+
+
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+  </div>
+</div>
+
+

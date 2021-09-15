@@ -4,20 +4,15 @@ import com.devhiglevel.productservice.models.documents.Attributes
 import com.devhiglevel.productservice.models.documents.Description
 import com.devhiglevel.productservice.models.documents.Pictures
 import com.devhiglevel.productservice.models.documents.SalesTerms
-import com.fasterxml.jackson.annotation.JsonProperty
 
-class ProductDto (
-    var id: String?,
-    var sku: String?,
+class ProductMeliPublicationDto (
     val idPublication: String?,
     val siteId: String?,
     val subTitle: String?,
     val sellerId: String?,
     val title: String?,
-    @JsonProperty("category")
-    val categoryDto: CategoryDto?,
+    val categoryId: String?,
     val price: Double?,
-    @JsonProperty("currency")
     val currencyId: String?,
     val availableQuantity: Int?,
     val buyingMode: String?,

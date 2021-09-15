@@ -34,13 +34,15 @@ class UserService(private val userRepository: UserRepository, private val bCrypt
        return userRepository.findById(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not founded by id:$id")
     }
 
-    suspend fun update(user: Users, id: String): Users? {
+    suspend fun update(user: UserDto, id: String): Users? {
         val userFounded = userRepository.findById(id)
         if(userFounded != null){
             userFounded.name = user.name
             userFounded.email = user.email
             userFounded.password = user.password
             userFounded.role = user.role
+            userFounded.attempts = user.attempts
+            userFounded.enabled = user.enabled
             return userRepository.save(userFounded)
         } else throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not founded by id:$id")
     }
@@ -88,6 +90,7 @@ class UserService(private val userRepository: UserRepository, private val bCrypt
         val userFounded = userRepository.findById(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not founded by id:$id")
         if(userFounded.enabled != enable){
             userFounded.enabled = enable
+            userFounded.attempts = 0
            return userRepository.save(userFounded)
         }
         return userFounded

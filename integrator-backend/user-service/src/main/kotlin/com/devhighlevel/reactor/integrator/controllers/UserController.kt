@@ -1,12 +1,10 @@
 package com.devhighlevel.reactor.integrator.controllers
 
 import com.devhighlevel.reactor.integrator.models.documents.Users
-import com.devhighlevel.reactor.integrator.models.dto.response.UserResponse
+import com.devhighlevel.reactor.integrator.models.dto.response.UserResponseDto
 import com.devhighlevel.reactor.integrator.models.request.UserDeleteDto
 import com.devhighlevel.reactor.integrator.models.request.UserDto
 import com.devhighlevel.reactor.integrator.services.UserService
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.springframework.beans.factory.annotation.Value
@@ -30,8 +28,8 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping
-    suspend fun users(): ResponseEntity<Flow<UserResponse>> {
-        return ResponseEntity(userService.findAll().map { UserResponse(it) }, HttpStatus.OK)
+    suspend fun users(): ResponseEntity<Flow<UserResponseDto>> {
+        return ResponseEntity(userService.findAll().map { UserResponseDto(it) }, HttpStatus.OK)
     }
 
     @PostMapping
@@ -40,13 +38,13 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/{id}")
-    suspend fun update(@RequestBody user: Users, @PathVariable id: String): ResponseEntity<UserResponse> {
-        return ResponseEntity(UserResponse(userService.update(user, id)), HttpStatus.OK)
+    suspend fun update(@RequestBody user: UserDto, @PathVariable id: String): ResponseEntity<UserResponseDto> {
+        return ResponseEntity(UserResponseDto(userService.update(user, id)), HttpStatus.OK)
     }
 
     @PutMapping("/{id}/{role}")
-    suspend fun updateRole(@PathVariable id: String, @PathVariable role: String): ResponseEntity<UserResponse> {
-        return ResponseEntity(UserResponse(userService.updateRole(id, role)), HttpStatus.OK)
+    suspend fun updateRole(@PathVariable id: String, @PathVariable role: String): ResponseEntity<UserResponseDto> {
+        return ResponseEntity(UserResponseDto(userService.updateRole(id, role)), HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")
@@ -56,19 +54,19 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/{id}")
-    suspend fun userById(@PathVariable id: String): ResponseEntity<UserResponse> {
-        return ResponseEntity(UserResponse(userService.getById(id)), HttpStatus.OK)
+    suspend fun userById(@PathVariable id: String): ResponseEntity<UserResponseDto> {
+        return ResponseEntity(UserResponseDto(userService.getById(id)), HttpStatus.OK)
     }
 
     @GetMapping("/find-by-email/{email}")
-    suspend fun userByEmail(@PathVariable email: String): ResponseEntity<UserResponse> {
-        return ResponseEntity(UserResponse(userService.getByEmail(email)), HttpStatus.OK)
+    suspend fun userByEmail(@PathVariable email: String): ResponseEntity<UserResponseDto> {
+        return ResponseEntity(UserResponseDto(userService.getByEmail(email)), HttpStatus.OK)
     }
 
 
     @PutMapping("/enable/{id}/{enable}")
-    suspend fun enable(@PathVariable id: String, @PathVariable enable: Boolean): ResponseEntity<UserResponse> {
-        return ResponseEntity(UserResponse(userService.enable(id, enable)), HttpStatus.OK)
+    suspend fun enable(@PathVariable id: String, @PathVariable enable: Boolean): ResponseEntity<UserResponseDto> {
+        return ResponseEntity(UserResponseDto(userService.enable(id, enable)), HttpStatus.OK)
     }
 
     @PatchMapping("/delete-batch")

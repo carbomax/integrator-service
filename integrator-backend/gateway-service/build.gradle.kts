@@ -18,12 +18,14 @@ repositories {
 extra["springCloudVersion"] = "2020.0.3"
 
 dependencies {
-   // implementation("com.okta.spring:okta-spring-boot-starter:2.1.0")
-   // implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-orgjson:0.11.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
