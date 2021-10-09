@@ -22,14 +22,9 @@ class AuthenticationManagerJwt: ReactiveAuthenticationManager {
         return Mono.just(authentication.credentials.toString())
             .map { token ->
                val key : SecretKey = Keys.hmacShaKeyFor(Base64.getEncoder().encode("secret_key_123456789-secret_key_123456789".toByteArray()))
-                try {
-                    return@map Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
-                } catch (ex: Exception) {
-                    return@map Jwts.claims()
-                }
+                return@map Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
             }
             .map { claims ->
-                if (claims.size > 0) {
                     val userName = claims.get("user_name", String::class.java)
                     val roles = claims.get("authorities", List::class.java) as List<*>
                     val authorities = mutableListOf<GrantedAuthority>()
@@ -37,11 +32,7 @@ class AuthenticationManagerJwt: ReactiveAuthenticationManager {
                         authorities.add(SimpleGrantedAuthority(it as String?))
                     }
                     return@map UsernamePasswordAuthenticationToken(userName, null, authorities)
-                } else {
-                    val authFail =  UsernamePasswordAuthenticationToken(null, null)
-                    authFail.isAuthenticated = false
-                    return@map authFail
-                }
+
             }
     }
 }
