@@ -1,3 +1,4 @@
+import { ProductCategoryComponent } from './product-category/product-category.component';
 import { MeliProductsComponent } from './meli-products/meli-products.component';
 import { NotFoundComponent } from './../shared/pages/not-found/not-found.component';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'admin-users', component: AdminUsersComponent },
       { path: 'meli_accounts', component: MeliUsersComponent },
       { path: 'meli-products', component: MeliProductsComponent },
+      { path: 'products-category', component: ProductCategoryComponent },
 
       {path: '**', redirectTo: 'dashboard'}
     ],

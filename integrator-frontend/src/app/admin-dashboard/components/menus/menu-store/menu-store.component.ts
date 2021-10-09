@@ -12,6 +12,7 @@ export class MenuStoreComponent implements OnInit {
   ngOnInit(): void {
     this.model = [
       {label: 'Meli Products', icon: 'pi pi-list', routerLink: ['/meli-products']},
+      {label: 'Products category', icon: 'pi pi-list', routerLink: ['/products-category']},
     ]
   }
 

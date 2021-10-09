@@ -23,6 +23,8 @@ export class MeliProductsComponent implements OnInit {
   loadProducts(): void {
     this.meliProductsService.getProducts().subscribe((resp) => {
       this.meliProducts = resp;
+      console.log('products => ', this.meliProducts);
+
     });
   }
 
@@ -30,8 +32,9 @@ export class MeliProductsComponent implements OnInit {
     dt.filterGlobal(event.target.value, 'contains')
   }
 
+  delete(meliProduct: MeliProduct) {
 
-
+  }
 
 
   initMeliProduct() {

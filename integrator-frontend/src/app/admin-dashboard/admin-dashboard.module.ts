@@ -18,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MeliUsersComponent } from './meli-users/meli-users.component';
 import { MeliProductsComponent } from './meli-products/meli-products.component';
 import { MenuStoreComponent } from './components/menus/menu-store/menu-store.component';
+import { ProductCategoryComponent } from './product-category/product-category.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MenuStoreComponent } from './components/menus/menu-store/menu-store.com
     AdminUsersComponent,
     MeliUsersComponent,
     MeliProductsComponent,
-    MenuStoreComponent
+    MenuStoreComponent,
+    ProductCategoryComponent
   ],
   imports: [
     CommonModule,

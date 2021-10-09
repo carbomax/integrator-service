@@ -1,0 +1,106 @@
+<div class="p-grid">
+  <div class="p-col-12">
+
+
+<p-toast></p-toast>
+
+<div class="card">
+
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+      <button pButton pRipple [disabled]="selectedCategories.length <= 0" label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteBatch()" ></button>
+
+
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload> -->
+      <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="categories"  [(selection)]="selectedCategories" [rowHover]="true"
+       [globalFilterFields]="['name']"
+    dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h3 class="p-m-0">Manage Products Category</h3>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Search..." (input)="searchInTable(dt, $event)"/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-category>
+      <tr>
+
+        <td>
+          <p-tableCheckbox [value]="category"></p-tableCheckbox>
+        </td>
+        <td>{{category?.name}}</td>
+
+        <td>
+          <button pButton pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success p-mr-2"
+                  (click)="update(category)"
+                  ></button>
+          <button pButton pRipple
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  (click)="delete(category)"
+                  ></button>
+
+        </td>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        In total there are {{categories ? categories.length : 0 }} categories.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+
+<p-dialog [(visible)]="categoryDialog" [style]="{width: '450px'}" [header]="headerCreateAndUpdateDialog" [modal]="true"
+  styleClass="p-fluid">
+
+
+    <ng-template pTemplate="content" [formGroup]="categoryForm">
+
+      <div class="p-field">
+        <label for="name">Name</label>
+        <input type="text" pInputText id="name" formControlName="name" [ngClass]="{'ng-invalid ng-dirty': submitted && name?.errors}"  autofocus />
+        <small class="p-error" *ngIf="submitted && name?.errors?.required">Name is required.</small>
+        <small class="p-error" *ngIf="submitted && name?.errors?.minlength"> Name must be at least 4 characters long.</small>
+      </div>
+    </ng-template>
+
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="createOrUpdate()"></button>
+  </ng-template>
+</p-dialog>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+  </div>
+</div>
+
+
+

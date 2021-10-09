@@ -48,4 +48,10 @@ class CategoryService(
         categoryRepository.delete(categoryToDelete)
     }
 
+    suspend fun deleteBatch(ids: List<String>?) {
+        if(ids.isNullOrEmpty()) throw ResponseStatusException( HttpStatus.NOT_FOUND, "Empty list to delete categories")
+        if(ids.any { it.isNullOrBlank() }) throw ResponseStatusException( HttpStatus.BAD_REQUEST, "List to delete categories contains null or empty ids")
+        categoryRepository.deleteAllById(ids)
+    }
+
 }

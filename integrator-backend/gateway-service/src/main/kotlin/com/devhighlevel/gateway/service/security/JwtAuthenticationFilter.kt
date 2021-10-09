@@ -21,6 +21,6 @@ class JwtAuthenticationFilter(
            .switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
            .map { token -> token.replace("Bearer ", "") }
            .flatMap { token -> return@flatMap authenticationManagerJwt.authenticate(UsernamePasswordAuthenticationToken(null, token)) }
-           .flatMap { authetication -> chain.filter(exchange).contextWrite { ReactiveSecurityContextHolder.withAuthentication(authetication) } }
+           .flatMap { authentication -> chain.filter(exchange).contextWrite { ReactiveSecurityContextHolder.withAuthentication(authentication) } }
     }
 }

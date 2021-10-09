@@ -55,7 +55,7 @@
           <img [src]="'assets/img/no_image.png'" width="100" class="p-shadow-4" />
         </td>
         <td>{{meliProduct?.title}}</td>
-        <td>{{meliProduct?.category}}</td>
+        <td>{{meliProduct?.category?.name}}</td>
         <td>{{meliProduct?.availableQuantity}}</td>
         <td>{{meliProduct?.price}}</td>
 
@@ -68,7 +68,7 @@
           <button pButton pRipple
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-warning"
-
+                  (click)="delete(meliProduct)"
                   ></button>
 
         </td>

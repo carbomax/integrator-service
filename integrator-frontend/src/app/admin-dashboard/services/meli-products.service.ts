@@ -14,8 +14,15 @@ export class MeliProductsService {
   constructor(private http: HttpClient) {
    }
 
-
   getProducts(): Observable<MeliProduct[]> {
       return this.http.get<MeliProduct[]>(`${this.URI_PRODUCTS}`)
+  }
+
+  delete(id: string){
+    return this.http.delete(`${this.URI_PRODUCTS}/${id}`)
+  }
+
+  deleteBatch(ids: string[]) {
+    return this.http.patch(`${this.URI_PRODUCTS}/delete/batch`, { ids })
   }
 }

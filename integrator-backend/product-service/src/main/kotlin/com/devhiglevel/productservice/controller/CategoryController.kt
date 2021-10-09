@@ -1,5 +1,6 @@
 package com.devhiglevel.productservice.controller
 
+import com.devhiglevel.productservice.models.dto.request.DeleteBatchDto
 import com.devhiglevel.productservice.models.dto.request.CategoryDto
 import com.devhiglevel.productservice.models.dto.response.CategoryResponseDto
 import com.devhiglevel.productservice.service.CategoryService
@@ -8,7 +9,6 @@ import kotlinx.coroutines.flow.map
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
@@ -33,6 +33,12 @@ class CategoryController(val categoryService: CategoryService) {
     @DeleteMapping("/{id}")
     suspend fun delete(@PathVariable id: String): ResponseEntity<Mono<Void>> {
         categoryService.delete(id)
+        return ResponseEntity<Mono<Void>>(HttpStatus.OK)
+    }
+
+    @PatchMapping("/delete/batch")
+    suspend fun deleteBatch(@RequestBody categoryDeleteBatchDto: DeleteBatchDto): ResponseEntity<Mono<Void>> {
+        categoryService.deleteBatch(categoryDeleteBatchDto.ids?.distinct())
         return ResponseEntity<Mono<Void>>(HttpStatus.OK)
     }
 

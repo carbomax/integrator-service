@@ -123,7 +123,6 @@ export class AdminUsersComponent implements OnInit {
   createUserOrUpdate(): void {
     this.submitted = true;
     if (this.userForm.invalid) {
-      return;
     }
 
     this.user.name = this.name?.value;
