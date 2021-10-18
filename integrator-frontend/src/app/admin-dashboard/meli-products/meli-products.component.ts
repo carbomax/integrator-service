@@ -1,4 +1,3 @@
-import { Attributes } from './../models/meli-products.model';
 import { MeliProductsService } from './../services/meli-products.service';
 import { Component, OnInit } from '@angular/core';
 import { MeliProduct } from '../models/meli-products.model';

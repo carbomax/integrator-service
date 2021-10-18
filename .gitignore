@@ -16,3 +16,7 @@ integrator-backend/user-service/gradle/wrapper/gradle-wrapper.jar
 integrator-backend/user-service/gradle/wrapper/
 
 integrator-backend/eureka-server/gradle/wrapper/
+
+integrator-backend/ktor-integrator/.gradle/
+
+integrator-backend/ktor-integrator/build/

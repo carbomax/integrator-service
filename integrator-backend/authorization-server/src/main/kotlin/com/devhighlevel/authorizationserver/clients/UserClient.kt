@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody
 @FeignClient(name = "user-service")
 interface UserClient {
 
-    @GetMapping("/integrator/user/user-system/find-by-email/{email}")
+    @GetMapping("/integrator/users/system/find-by-email/{email}")
     fun userByEmail(@PathVariable email: String): UserResponse?
 
-    @PutMapping("/integrator/user/user-system/{id}")
+    @PutMapping("/integrator/users/system/{id}")
     fun update(@RequestBody user: UserDto, @PathVariable id: String): UserResponse
 }

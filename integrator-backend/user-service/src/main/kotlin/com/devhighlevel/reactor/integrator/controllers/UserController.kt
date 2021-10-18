@@ -16,7 +16,7 @@ import javax.validation.Valid
 
 
 @RestController
-@RequestMapping("/user-system")
+@RequestMapping("/system")
 class UserController(private val userService: UserService) {
 
     @Value("\${server.port}")

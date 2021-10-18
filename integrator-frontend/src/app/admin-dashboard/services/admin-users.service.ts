@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -19,9 +19,16 @@ export class AdminUsersService {
     { name: 'User', code: 'ROLE_USER'}
   ]
 
-  URI_USERS: string = `${environment.uri_backend}integrator/user/user-system`
+  URI_USERS: string = `${environment.uri_backend}integrator/users/system`
   constructor(private http: HttpClient) {
-      this.getUsers()
+   // this.test()
+   }
+
+   test(){
+     console.log("Running test");
+
+     this.http.get("http://localhost:3000/products").subscribe( resp => console.log(resp)
+     )
    }
 
    createUser(user: User): Observable<User> {

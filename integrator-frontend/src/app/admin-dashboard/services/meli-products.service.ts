@@ -9,7 +9,7 @@ import { MeliProduct } from '../models/meli-products.model';
 })
 export class MeliProductsService {
 
-  URI_PRODUCTS: string = `${environment.uri_backend}integrator/product/products`
+  URI_PRODUCTS: string = `${environment.uri_backend}integrator/products`
 
   constructor(private http: HttpClient) {
    }

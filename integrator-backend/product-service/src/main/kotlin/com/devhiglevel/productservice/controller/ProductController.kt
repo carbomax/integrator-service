@@ -14,7 +14,6 @@ import reactor.kotlin.core.publisher.toMono
 
 
 @RestController
-@RequestMapping("/products")
 class ProductController(private val productService: ProductService) {
 
     @PostMapping

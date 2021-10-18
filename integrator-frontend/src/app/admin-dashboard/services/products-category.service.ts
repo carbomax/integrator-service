@@ -9,7 +9,7 @@ import { ProductsCategory } from '../models/products-category';
 })
 export class ProductsCategoryService {
 
-  BASE_URI: string = `${environment.uri_backend}integrator/product/category`
+  BASE_URI: string = `${environment.uri_backend}integrator/products/category`
 
   constructor(private http: HttpClient) { }
 

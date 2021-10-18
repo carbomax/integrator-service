@@ -25,11 +25,20 @@ class JwtAuthenticationFilter(
 ): WebFilter {
 
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
+        println("Headers" + exchange.request.headers)
        return Mono.justOrEmpty(exchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION))
-           .filter { authHeader -> authHeader.startsWith("Bearer ") }
+           .filter { authHeader ->
+               println("Header $authHeader")
+               authHeader.startsWith("Bearer ")
+           }
            .switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
-           .map { token -> token.replace("Bearer ", "") }
-           .flatMap { token -> return@flatMap authenticationManagerJwt.authenticate(UsernamePasswordAuthenticationToken(null, token)) }
+           .map { token ->
+               println("Token $token")
+               token.replace("Bearer ", "") }
+           .flatMap { token ->
+
+               return@flatMap authenticationManagerJwt.authenticate(UsernamePasswordAuthenticationToken(null, token))
+           }
            .flatMap { authentication -> chain.filter(exchange).contextWrite { ReactiveSecurityContextHolder.withAuthentication(authentication) } }
            .onErrorResume(
                Exception::class.java

@@ -14,5 +14,5 @@ spring:
   application:
     name: product-service
   webflux:
-    base-path: /integrator/product
+    base-path: /integrator/products
 

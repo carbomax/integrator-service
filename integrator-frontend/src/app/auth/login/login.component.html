@@ -1,26 +1,39 @@
 <div class="login-body">
   <div class="login-panel p-fluid">
+    <form (ngSubmit)="login()" [formGroup]="loginForm">
       <div class="p-grid p-nogutter">
-          <div class="p-col-12 login-header">
-              <h1>LOGIN</h1>
-              <h2>Welcome to Integrator</h2>
-              <img src="assets/layout/images/logo.png">
-          </div>
-          <div class="p-col-12">
-              <span class="p-float-label">
-                  <input type="text" pInputText>
-                  <label>Username</label>
-              </span>
-          </div>
-          <div class="p-col-12">
-              <span class="p-float-label">
-                  <input type="text" pInputText>
-                  <label>Password</label>
-              </span>
-          </div>
-          <div class="p-col-12 button-container">
-              <button pButton type="button" label="Sign In" icon="pi pi-user" (click)="login()" ></button>
-          </div>
+        <div class="p-col-12 login-header">
+          <h1>LOGIN</h1>
+          <h2>Welcome to Integrator</h2>
+          <img src="assets/layout/images/logo.png" />
+        </div>
+        <div class="p-col-12">
+          <span class="p-float-label">
+            <input type="email" pInputText
+              formControlName="email"
+              name="email"
+              [ngClass]="{'ng-invalid ng-dirty': formValidatorService.fieldNotValid('email', loginForm)}" />
+            <label *ngIf="!formValidatorService.fieldNotValid('email', loginForm)">Email</label>
+            <small class="p-error" *ngIf="formValidatorService.required('email', loginForm)">Email is required</small>
+            <small class="p-error" *ngIf="formValidatorService.minLength('email', loginForm) && email?.errors?.email">Email invalid</small>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <span class="p-float-label">
+            <input type="password" pInputText
+            formControlName="password"
+            name="password"
+            [ngClass]="{'ng-invalid ng-dirty': formValidatorService.fieldNotValid('password', loginForm)}" />
+            <label *ngIf="!formValidatorService.fieldNotValid('password', loginForm)">Password</label>
+            <small class="p-error" *ngIf="formValidatorService.required('password', loginForm)">Password is required</small>
+            <small class="p-error" *ngIf="formValidatorService.minLength('password', loginForm)">Password must be at least 4 characters long.</small>
+          </span>
+        </div>
+        <div class="p-col-12 button-container">
+          <button pButton type="submit" label="Sign In" icon="pi pi-user" [disabled]="loginForm.invalid"></button>
+        </div>
       </div>
+    </form>
   </div>
 </div>
+

@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/users-meli")
+@RequestMapping("/meli")
 class MeliUserController(
     private val meliUserService: MeliUserService,
     private val authorizationMeliService: AuthorizationMeliService
