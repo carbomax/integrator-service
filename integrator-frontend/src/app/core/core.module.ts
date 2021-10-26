@@ -33,7 +33,8 @@ export const httpInterceptorProviders = [
     ReactiveFormsModule
   ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+
   ]
 })
 export class CoreModule { }

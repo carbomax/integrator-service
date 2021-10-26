@@ -25,7 +25,6 @@ class JwtAuthenticationFilter(
 ): WebFilter {
 
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
-        println("Headers" + exchange.request.headers)
        return Mono.justOrEmpty(exchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION))
            .filter { authHeader ->
                println("Header $authHeader")

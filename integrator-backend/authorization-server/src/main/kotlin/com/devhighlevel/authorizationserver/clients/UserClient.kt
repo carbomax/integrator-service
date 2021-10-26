@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 
 
-@FeignClient(name = "user-service")
+@FeignClient(name = "integrator-service")
 interface UserClient {
 
     @GetMapping("/integrator/users/system/find-by-email/{email}")

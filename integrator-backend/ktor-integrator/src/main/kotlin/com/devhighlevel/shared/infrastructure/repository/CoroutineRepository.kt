@@ -12,6 +12,7 @@ interface CoroutineRepository<E : Any> {
     var collection: CoroutineCollection<E>
 
     suspend fun save(e: E): UpdateResult? {
+        collection.deleteMany()
         return collection.save(e)
     }
 

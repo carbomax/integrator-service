@@ -21,15 +21,9 @@ export class AdminUsersService {
 
   URI_USERS: string = `${environment.uri_backend}integrator/users/system`
   constructor(private http: HttpClient) {
-   // this.test()
+
    }
 
-   test(){
-     console.log("Running test");
-
-     this.http.get("http://localhost:3000/products").subscribe( resp => console.log(resp)
-     )
-   }
 
    createUser(user: User): Observable<User> {
       return this.http.post<User>(this.URI_USERS, user)
@@ -40,6 +34,9 @@ export class AdminUsersService {
    }
 
    updateRole(id: string, role: string): Observable<User> {
+     console.log('id', id);
+     console.log('role', role);
+
       return this.http.put<User>(`${this.URI_USERS}/${id}/${role}`, {})
    }
 

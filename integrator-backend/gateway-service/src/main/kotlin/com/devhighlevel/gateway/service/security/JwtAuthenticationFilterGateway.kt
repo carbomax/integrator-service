@@ -18,11 +18,8 @@ import javax.crypto.SecretKey
 @Component
 class JwtAuthenticationFilterGateway: GatewayFilter {
 
-
     override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void?>? {
         val request = exchange.request
-
-
             if (!request.headers.containsKey("Authorization")) {
                 val response = exchange.response
                 response.statusCode = HttpStatus.UNAUTHORIZED

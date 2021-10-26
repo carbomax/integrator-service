@@ -1,6 +1,5 @@
 package com.devhighlevel.gateway.service.config
 
-import com.devhighlevel.gateway.service.security.JwtAuthenticationFilterGateway
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.context.annotation.Bean
@@ -8,9 +7,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.reactive.CorsConfigurationSource
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
-import org.springframework.web.reactive.config.CorsRegistry
 import org.springframework.web.reactive.config.EnableWebFlux
 import org.springframework.web.reactive.config.WebFluxConfigurer
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping
@@ -22,15 +21,11 @@ class CloudConfig : WebFluxConfigurer{
     @Bean
     fun routerLocator(builder: RouteLocatorBuilder): RouteLocator {
         return builder.routes()
-            .route {
-                it.path("/integrator/users/**")
-                    .uri("lb://user-service")
+            .route{
+                it.path("/integrator/**")
+                    .uri("lb://integrator-service")
             }
             .route{
-                it.path("/integrator/products/**")
-                    .uri("lb://product-service")
-            }
-            .route{ it ->
                 it.path("/oauth/token")
                     .uri("lb://oauth-service")
             }
@@ -44,23 +39,23 @@ class CloudConfig : WebFluxConfigurer{
         return SimpleUrlHandlerMapping()
     }
 
+    @Bean
+    fun corsFilter(): CorsWebFilter? {
+        return CorsWebFilter(corsConfigurationSource())
+    }
 
     @Bean
-    fun corsWebFilter(): CorsWebFilter? {
-        val corsConfig = CorsConfiguration()
-        corsConfig.allowedOriginPatterns = listOf("*")
-        corsConfig.maxAge = 3600
-        corsConfig.allowedMethods = listOf("*")
-        corsConfig.allowedHeaders =
-            listOf(
-                "Access-Control-Request-Headers",
-                "x-requested-with", "authorization",
-                "Content-Type", "Content-Length", "Authorization", "credential", "X-XSRF-TOKEN")
-        corsConfig.exposedHeaders = listOf(HttpHeaders.SET_COOKIE)
-        corsConfig.allowCredentials = true
+    fun corsConfigurationSource(): CorsConfigurationSource {
         val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", corsConfig)
-        return CorsWebFilter(source)
+        val config = CorsConfiguration().applyPermitDefaultValues()
+        config.addAllowedMethod(HttpMethod.GET)
+        config.addAllowedMethod(HttpMethod.POST)
+        config.addAllowedMethod(HttpMethod.OPTIONS)
+        config.addAllowedMethod(HttpMethod.PUT)
+        config.addAllowedMethod(HttpMethod.DELETE)
+        config.addAllowedOrigin("http://localhost:4200")
+        source.registerCorsConfiguration("/**", config)
+        return source
     }
 
 }

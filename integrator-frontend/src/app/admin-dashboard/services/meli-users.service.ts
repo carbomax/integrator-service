@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DeleteBatchDto } from 'src/app/models/delete-batch.model';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class MeliUsersService {
 
   URI_USERS: string = `${environment.uri_backend}integrator/users/meli`
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
       this.getAll()
   }
 
@@ -28,8 +29,6 @@ export class MeliUsersService {
   }
 
   authorize(code, accountReference) {
-    console.log('code =>', code);
-    console.log('accountReference =>', accountReference);
     const {referenceUserSystem, referenceId} = accountReference
     return this.http.post(`${this.URI_USERS}/authorization`, { code, idUserSystem: referenceUserSystem, idMeliUser: referenceId})
   }
@@ -40,7 +39,7 @@ export class MeliUsersService {
   }
 
   createUser(user: MeliUser): Observable<MeliUser> {
-    return this.http.post<MeliUser>(this.URI_USERS, { name: user.name, description: user.description})
+    return this.http.post<MeliUser>(this.URI_USERS, { name: user.name, description: user.description, idUserSystem: this.authService.authenticationData.userName})
  }
 
  updateUser(user: MeliUser): Observable<MeliUser> {

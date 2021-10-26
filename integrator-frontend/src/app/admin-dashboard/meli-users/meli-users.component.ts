@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { FormValidatorService } from 'src/app/core/services/formValidator.service';
 import { DeleteBatchDto } from 'src/app/models/delete-batch.model';
 import { MeliUser } from '../models/meli-users.model';
 import { MeliUsersService } from '../services/meli-users.service';
@@ -15,36 +16,6 @@ import { MeliUsersService } from '../services/meli-users.service';
 })
 export class MeliUsersComponent implements OnInit {
 
-  joinClass: string = 'p-button-rounded p-button-warning'
-  authorizedClass: string = 'p-button-rounded p-button-secondary'
-  joinTitle: string = 'Join to Meli'
-  authorizTitle: string = 'Account authorized'
-
-  constructor(
-    public meliUserService: MeliUsersService,
-    private fb: FormBuilder,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private activateRoute: ActivatedRoute,
-    private router: Router
-  ) {
-
-    this.activateRoute.queryParams.subscribe( resp => {
-      console.log('queryParams =>', resp);
-      const code =resp.code
-      const reference = this.meliUserService.getAccountReference()
-      if(code && reference) {
-          this.meliUserService.authorize(code, reference).subscribe( resp => {
-              console.log('AUTHORIZED', resp);
-             this.router.navigate(['/meli_accounts'])
-          },
-          error => {
-            console.log('UNAUTHORIZED', error);
-
-          })
-      }
-    })
-  }
 
   users: MeliUser[] = [];
   user: MeliUser = { id: '', idUserSystem: '', idUser: '', name: '', description: '', enabled: false };
@@ -63,6 +34,44 @@ export class MeliUsersComponent implements OnInit {
   });
 
   message: Message[] = [];
+
+  constructor(
+    public meliUserService: MeliUsersService,
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private router: Router,
+    public formValidatorService: FormValidatorService
+  ) {
+
+    this.activateRoute.queryParams.subscribe( resp => {
+      const code =resp.code
+      const reference = this.meliUserService.getAccountReference()
+      if(code && reference) {
+          this.meliUserService.authorize(code, reference).subscribe( resp => {
+
+             this.router.navigate(['/meli_accounts'])
+             this.showMessage('success', 'Successful', 'Account authorized')
+          },
+          error => {
+
+            this.router.navigate(['/meli_accounts'])
+              if(error.status === 404){
+                  this.showMessage('error', 'Error', 'Account not found, please contact with admin')
+
+              }
+
+              if(error.status === 409){
+                this.showMessage('error', 'Error',
+                'Meli account in use. Try login in Meli with another account and join')
+
+            }
+          })
+      }
+    })
+  }
+
 
   ngOnInit(): void {
     this.loadUsers();
@@ -108,6 +117,7 @@ export class MeliUsersComponent implements OnInit {
     this.create = false;
     this.userDialog = false;
     this.submitted = false;
+    this.userForm.reset()
   }
 
   enableOrDisable(user: MeliUser) {

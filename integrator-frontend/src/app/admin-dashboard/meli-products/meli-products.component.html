@@ -1,96 +1,147 @@
-<div class="p-grid">
-  <div class="p-col-12">
-
-
 <p-toast></p-toast>
 
 <div class="card">
-
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
-      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></button>
-      <button pButton pRipple [disabled]="selectedMeliProducts.length <= 0" label="Delete" icon="pi pi-trash" class="p-button-danger" ></button>
-
-
+      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
+        (click)="openNew()"></button>
+      <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+        (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
     </ng-template>
 
     <ng-template pTemplate="right">
-      <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload> -->
+      <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload>
       <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
     </ng-template>
   </p-toolbar>
 
-  <p-table #dt [value]="meliProducts"  [(selection)]="selectedMeliProducts" [rowHover]="true"
-       [globalFilterFields]="['title', 'price', 'availableQuantity']"
-    dataKey="id">
+  <p-table #dt [value]="products" [rows]="10" [paginator]="true"
+    [globalFilterFields]="['title','price','representative.name','status']" [(selection)]="selectedProducts"
+    [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">Manage Products</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="searchInTable(dt, $event)" placeholder="Search..." />
+        </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
+        <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon>
+        </th>
         <th>Image</th>
-        <th pSortableColumn="title">Title<p-sortIcon field="title"></p-sortIcon></th>
-        <th pSortableColumn="category">Category<p-sortIcon field="category"></p-sortIcon></th>
-        <th pSortableColumn="availableQuantity">AvailableQuantity<p-sortIcon field="availableQuantity"></p-sortIcon></th>
-        <th pSortableColumn="price">Price<p-sortIcon field="price"></p-sortIcon></th>
+        <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th pSortableColumn="product.category?.name">Category <p-sortIcon field="product.category?.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="availableQuantity">Quantity<p-sortIcon field="availableQuantity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="description">Description<p-sortIcon field="description"></p-sortIcon>
+        </th>
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="caption">
-      <div class="p-d-flex p-ai-center p-jc-between">
-        <h3 class="p-m-0">Manage Meli Products</h3>
-        <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" placeholder="Search..." (input)="searchInTable(dt, $event)"/>
-        </span>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="body" let-meliProduct>
+    <ng-template pTemplate="body" let-product>
       <tr>
+        <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+        </td>
+        <td>{{product.title}}</td>
+        <td>
+          <img [src]="uploadImage(product.pictures[0])" [alt]="product.title" width="100" class="p-shadow-4" />
+        </td>
+        <td>{{product.price}}</td>
+        <td>{{product.category?.name}}</td>
+        <td>{{product.availableQuantity}}</td>
+        <td>{{product.description}}</td>
 
         <td>
-          <p-tableCheckbox [value]="meliProduct"></p-tableCheckbox>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+            (click)="editProduct(product)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+            (click)="deleteProduct(product)"></button>
         </td>
-        <td>
-          <img [src]="'assets/img/no_image.png'" width="100" class="p-shadow-4" />
-        </td>
-        <td>{{meliProduct?.title}}</td>
-        <td>{{meliProduct?.category?.name}}</td>
-        <td>{{meliProduct?.availableQuantity}}</td>
-        <td>{{meliProduct?.price}}</td>
-
-        <td>
-          <button pButton pRipple
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-success p-mr-2"
-
-                  ></button>
-          <button pButton pRipple
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-warning"
-                  (click)="delete(meliProduct)"
-                  ></button>
-
-        </td>
-
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="p-d-flex p-ai-center p-jc-between">
-        In total there are {{meliProducts ? meliProducts.length : 0 }} products.
+        In total there are {{products ? products.length : 0 }} products.
       </div>
     </ng-template>
   </p-table>
-
 </div>
 
+<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true"
+  styleClass="p-fluid">
+
+  <ng-template pTemplate="content" [formGroup]="productForm" ]>
+    <div class="p-field">
+      <label for="title">Title</label>
+      <input type="text" pInputText id="title" [ngClass]="{'ng-invalid ng-dirty': submitted && title.errors}"
+        formControlName="title" autofocus />
+      <small class="p-error" *ngIf="submitted && title.errors?.required">Name is required.</small>
+    </div>
+    <div class="p-field">
+      <label for="description">Description</label>
+      <textarea id="description" [ngClass]="{'ng-invalid ng-dirty': submitted && description.errors}"
+        formControlName="description" pInputTextarea rows="3" cols="20"></textarea>
+      <small class="p-error" *ngIf="submitted && description.errors?.required">Description is required.</small>
+    </div>
+
+    <div class="p-field">
+      <label for="inventoryStatus">Category</label>
+      <p-dropdown inputId="inventoryStatus" [options]="categories" formControlName="category" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span>{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+      <small class="p-error" *ngIf="submitted && category.errors?.required">Category is required.</small>
+    </div>
+
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="price">Price</label>
+        <p-inputNumber id="price" [ngClass]="{'ng-invalid ng-dirty': submitted && price.errors}" formControlName="price"
+          mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+        <small class="p-error" *ngIf="submitted && price.errors?.required">Price is required.</small>
+      </div>
+      <div class="p-field p-col">
+        <label for="quantity">Quantity</label>
+        <p-inputNumber id="quantity" [ngClass]="{'ng-invalid ng-dirty': submitted && quantity.errors}" name="quantity"
+          formControlName="quantity"></p-inputNumber>
+        <small class="p-error" *ngIf="submitted && quantity.errors?.required">Quantity is required.</small>
+      </div>
+    </div>
+
+    <div class="p-field">
+
+      <p-fileUpload
+        [chooseIcon]="icon"
+        chooseLabel="Upload image"
+        name="myfile[]"
+        [customUpload]="true"
+        (onSelect)="onSelect($event)"
+        (onRemove)="onRemove($event)"
+        (uploadHandler)="onUpload($event)"
+        accept="image/*"
+        [maxFileSize]="100000000"
+        [auto]="true">
+      </p-fileUpload>
+    </div>
+
+  </ng-template>
 
 
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+  </ng-template>
+</p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
-
-
-  </div>
-</div>
-
-

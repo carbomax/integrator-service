@@ -20,3 +20,9 @@ integrator-backend/eureka-server/gradle/wrapper/
 integrator-backend/ktor-integrator/.gradle/
 
 integrator-backend/ktor-integrator/build/
+
+integrator-backend/integrator-service/build/
+
+integrator-backend/integrator-service/.gradle/
+
+integrator-backend/integrator-service/gradle/

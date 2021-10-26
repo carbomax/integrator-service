@@ -4,6 +4,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 import { SidebarModule } from 'primeng/sidebar';
 import { ListboxModule } from 'primeng/listbox';
 import { MegaMenuModule } from 'primeng/megamenu';
@@ -23,7 +24,9 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PanelModule } from 'primeng/panel';
 import { CheckboxModule } from 'primeng/checkbox';
+
 import { ConfirmationService, MessageService } from 'primeng/api';
+
 
 
 @NgModule({
@@ -33,6 +36,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ConfirmDialogModule,
     DialogModule,
     DropdownModule,
+    FileUploadModule,
     SidebarModule,
     ListboxModule,
     MegaMenuModule,
@@ -58,6 +62,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ConfirmDialogModule,
     DialogModule,
     DropdownModule,
+    FileUploadModule,
     SidebarModule,
     ListboxModule,
     MegaMenuModule,

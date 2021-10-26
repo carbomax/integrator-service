@@ -1,6 +1,7 @@
 import {Component, AfterViewInit, Renderer2, OnDestroy} from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { AppComponent } from 'src/app/app.component';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
     selector: 'app-main',
@@ -26,7 +27,11 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
 
     configClick: boolean;
 
-    constructor(public renderer: Renderer2, private primengConfig: PrimeNGConfig, public app: AppComponent) {}
+    constructor(public renderer: Renderer2,
+      private primengConfig: PrimeNGConfig,
+      public app: AppComponent,
+      private authService: AuthService
+      ) {}
 
     ngAfterViewInit() {
         this.documentClickListener = this.renderer.listen('body', 'click', (event) => {
@@ -87,7 +92,9 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
     }
 
     onTopbarSubItemClick(event) {
+       this.authService.logout();
         event.preventDefault();
+
     }
 
     onConfigClick(event) {

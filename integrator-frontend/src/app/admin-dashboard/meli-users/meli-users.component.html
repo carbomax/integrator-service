@@ -69,6 +69,7 @@
               <button *ngIf="user.userId" pButton pRipple type="button" label="Account authorized"
                 [ngClass]="{'p-button-rounded p-button-success': user.userId }" (click)="redirect(user)">
               </button>
+
             </td>
 
             <td>
@@ -97,16 +98,20 @@
 
         <div class="p-field">
           <label for="name">Name</label>
-          <input type="text" pInputText id="name" formControlName="name" autofocus />
-          <small class="p-error" *ngIf="submitted && name?.errors?.required">Name is required.</small>
-          <small class="p-error" *ngIf="submitted && name?.errors?.minlength"> Name must be at least 4 characters
+          <input type="text"
+          [ngClass]="{'ng-invalid ng-dirty': formValidatorService.fieldNotValid('name', userForm)}"
+           pInputText id="name" formControlName="name" autofocus />
+          <small class="p-error" *ngIf="formValidatorService.required('name', userForm)">Name is required.</small>
+          <small class="p-error" *ngIf="formValidatorService.minLength('name', userForm)"> Name must be at least 4 characters
             long.</small>
         </div>
 
         <div class="p-field">
           <label for="name">Description</label>
-          <input type="text" pInputText id="email" formControlName="description" required autofocus />
-          <small class="p-error" *ngIf="submitted && description?.errors?.required">Description is required.</small>
+          <input type="text"
+          [ngClass]="{'ng-invalid ng-dirty': formValidatorService.fieldNotValid('description', userForm)}"
+           pInputText id="email" formControlName="description" autofocus />
+          <small class="p-error" *ngIf="formValidatorService.required('description', userForm)">Description is required.</small>
         </div>
 
       </ng-template>
@@ -115,6 +120,7 @@
       <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+        [disabled]="userForm.invalid"
           (click)="createUserOrUpdate()"></button>
       </ng-template>
     </p-dialog>

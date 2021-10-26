@@ -165,6 +165,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   updateRole(user: User): void {
+
     this.confirmationService.confirm({
       message: 'Are you sure you want to update rol to ' + user?.name + '?',
       header: 'Confirm',

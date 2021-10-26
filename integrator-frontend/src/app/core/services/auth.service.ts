@@ -4,9 +4,10 @@ import { environment } from 'src/environments/environment';
 import { AuthenticationData } from '../models/authentication.data.model';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   URI = `${environment.uri_backend}oauth/token`;
@@ -15,7 +16,7 @@ export class AuthService {
     'Authorization': 'Basic ' + btoa('integrator-frontend' + ':' + '12345'),
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string): Observable<AuthenticationData> {
     const params = new URLSearchParams();
@@ -36,6 +37,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    this.router.navigate(['auth/login'])
   }
 
   isAuthenticated() {

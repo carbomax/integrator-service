@@ -15,7 +15,7 @@
               [ngClass]="{'ng-invalid ng-dirty': formValidatorService.fieldNotValid('email', loginForm)}" />
             <label *ngIf="!formValidatorService.fieldNotValid('email', loginForm)">Email</label>
             <small class="p-error" *ngIf="formValidatorService.required('email', loginForm)">Email is required</small>
-            <small class="p-error" *ngIf="formValidatorService.minLength('email', loginForm) && email?.errors?.email">Email invalid</small>
+            <small class="p-error" *ngIf="formValidatorService.email('email', loginForm) && email?.errors?.email">Email invalid</small>
           </span>
         </div>
         <div class="p-col-12">

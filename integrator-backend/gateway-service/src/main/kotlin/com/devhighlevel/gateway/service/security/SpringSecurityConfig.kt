@@ -14,6 +14,8 @@ class SpringSecurityConfig(val jwtAuthenticationFilter: JwtAuthenticationFilter)
     fun configure(httpSecurity: ServerHttpSecurity): SecurityWebFilterChain {
         return httpSecurity.cors().and().authorizeExchange()
             .pathMatchers("/oauth/token").permitAll()
+            .pathMatchers(HttpMethod.GET,"/integrator/upload/download/products").permitAll()
+            .pathMatchers("/integrator/**").hasAnyRole("ADMIN")
             .anyExchange().authenticated()
             .and()
             .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)

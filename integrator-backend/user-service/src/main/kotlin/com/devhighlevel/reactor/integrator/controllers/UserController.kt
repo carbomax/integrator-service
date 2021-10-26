@@ -9,14 +9,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
+import javax.print.attribute.standard.Media
 import javax.validation.Valid
 
 
 @RestController
-@RequestMapping("/system")
+@RequestMapping("/system", consumes = arrayOf(""))
 class UserController(private val userService: UserService) {
 
     @Value("\${server.port}")
